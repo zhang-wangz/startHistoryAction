@@ -46,10 +46,9 @@ jobs:
 
       - name: Git add and commit
         run: |
-          git config --global user.name "wangzhang"
-          git config --global user.email "745268436@qq.com"
-          git remote set-url origin https://x-access-token:${{ secrets.ADMINTOKEN }}@github.com/${{ github.repository }}.git
-          git add star_history.png
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
           git commit -m "Auto-update star_history.png [$(date +'%Y-%m-%d')]" || echo "Nothing to commit"
         env:
           ADMIN_TOKEN: ${{ secrets.ADMINTOKEN }}
