@@ -24,6 +24,9 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Pull and rebase
+        run: git pull origin main --rebase
+
       - name: Set up pnpm
         run: npm install -g pnpm
 
@@ -42,10 +45,6 @@ jobs:
         run: python test.py
         env:
           ACCESS_TOKEN: ${{ secrets.ADMINTOKEN }}
-
-
-      - name: Pull and rebase
-        run: git pull origin main --rebase
 
       - name: Git add and commit
         run: |
