@@ -24,11 +24,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>')
         const document = dom.window.document
         
-        // 创建SVG元素
+        // 创建SVG元素，使用更大的尺寸和更宽的宽高比
         const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
-        svg.setAttribute('width', '864')
-        svg.setAttribute('height', '576')
-        svg.setAttribute('viewBox', '0 0 864 576')
+        svg.setAttribute('width', '864')  // 增加宽度
+        svg.setAttribute('height', '576')   // 增加高度
+        svg.setAttribute('viewBox', '0 0 864 576')  // 设置viewBox以确保正确缩放
         
         // 生成图表
         XYChart(svg, {
@@ -38,7 +38,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             data: {
                 datasets: [{
                     label: repo,
-                    logo: '',
+                    logo: 'https://avatars.githubusercontent.com/u/49056179?v=4',
                     data: starRecords.map(record => ({
                         x: type === 'Timeline' ? new Date(record.date).getTime() : new Date(record.date),
                         y: record.count
@@ -50,41 +50,31 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             theme: 'light'
         }, {
             xTickLabelType: type === 'Date' ? 'Date' : 'Number',
-            envType: 'node',
-            fontFamily: 'xkcd' // 使用xkcd字体
+            envType: 'node'
         })
 
-        // 直接获取生成的SVG，不做进一步修改
         const svgString = svg.outerHTML
         
         // 根据请求的格式返回不同类型的响应
         if (format === 'png') {
-            try {
-                // 转换SVG为PNG
-                const pngBuffer = await sharp(Buffer.from(svgString))
-                    .resize(2400, 1600)
-                    .png()
-                    .toBuffer()
-                
-                res.setHeader('Content-Type', 'image/png')
-                res.setHeader('Cache-Control', 'public, max-age=3600')
-                res.status(200).send(pngBuffer)
-            } catch (sharpError) {
-                console.error('PNG转换失败:', sharpError)
-                // 转换失败时，返回SVG
-                res.setHeader('Content-Type', 'image/svg+xml')
-                res.setHeader('Cache-Control', 'public, max-age=3600')
-                res.status(200).send(svgString)
-            }
+            // 转换SVG为PNG，使用更大的尺寸
+            const pngBuffer = await sharp(Buffer.from(svgString))
+                .resize(2400, 1600)  // 2x分辨率，保持相同的宽高比
+                .png()
+                .toBuffer()
+            
+            // 设置PNG响应头
+            res.setHeader('Content-Type', 'image/png')
+            res.setHeader('Cache-Control', 'public, max-age=3600') // 1小时缓存
+            res.status(200).send(pngBuffer)
         } else {
             // 返回SVG
             res.setHeader('Content-Type', 'image/svg+xml')
-            res.setHeader('Cache-Control', 'public, max-age=3600')
+            res.setHeader('Cache-Control', 'public, max-age=3600') // 1小时缓存
             res.status(200).send(svgString)
         }
         
     } catch (error: any) {
-        console.error('生成图表错误:', error)
         let message = "生成图表失败"
         let status = 500
 
@@ -102,6 +92,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             status = 501
         }
 
-        res.status(status).json({ error: message, detail: error?.toString() })
+        res.status(status).json({ error: message })
     }
 } 
