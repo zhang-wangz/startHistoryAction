@@ -2,6 +2,7 @@ import requests
 import json
 from typing import Dict, Any, Literal
 import os
+from datetime import datetime
 
 
 class StarHistoryClient:

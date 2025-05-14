@@ -19,7 +19,7 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Set up Node.js 15
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
