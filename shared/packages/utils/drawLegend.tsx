@@ -18,7 +18,7 @@ const drawLegend = (selection: D3Selection, { items, strokeColor, backgroundColo
     const xkcdCharHeight = 12
     const colorBlockWidth = 8
     const logoSize = 17
-    const newFontSize = xkcdCharHeight + 3
+    const newFontSize = xkcdCharHeight + 1
 
     const legend = selection.append("svg")
     const backgroundLayer = legend.append("svg")
