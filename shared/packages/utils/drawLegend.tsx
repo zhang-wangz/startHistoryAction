@@ -15,9 +15,10 @@ const drawLegend = (selection: D3Selection, { items, strokeColor, backgroundColo
     const legendXPadding = 7
     const legendYPadding = 6
     const xkcdCharWidth = 7
-    const xkcdCharHeight = 15
+    const xkcdCharHeight = 12
     const colorBlockWidth = 8
     const logoSize = 17
+    const newFontSize = xkcdCharHeight + 3
 
     const legend = selection.append("svg")
     const backgroundLayer = legend.append("svg")
@@ -58,14 +59,13 @@ const drawLegend = (selection: D3Selection, { items, strokeColor, backgroundColo
         }
         // draw text
         textLayer
-          .append("text")
-          .text(item.text)
-          .style("fill", strokeColor)
-          .style("font-size", `${xkcdCharHeight}px`)
-          .style("fill", strokeColor)
-          .attr("x", 8 + legendXPadding + colorBlockWidth + (shouldDrawLogo ? legendXPadding + logoSize : 0) + 6)
-          .attr("y", 17 + xkcdCharHeight * i + xkcdCharHeight / 2)  // 这个位置是文字的中心位置
-          .attr("alignment-baseline", "middle");  // 确保文本的垂直中线与y对齐
+            .append("text")
+            .text(item.text)
+            .style("font-size", `${newFontSize}px`)
+            .style("fill", strokeColor)
+            .attr("x", 20 + legendXPadding + colorBlockWidth)
+            .attr("y", 17 + xkcdCharHeight * i + xkcdCharHeight / 2)
+            .attr("alignment-baseline", "middle")
 
 
         maxTextLength = Math.max(item.text.length, maxTextLength)
