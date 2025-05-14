@@ -41,7 +41,7 @@ jobs:
       - name: Run Python script to generate image
         run: python test.py
         env:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          ACCESS_TOKEN: ${{ secrets.ADMINTOKEN }}
 
 
       - name: Git add and commit
