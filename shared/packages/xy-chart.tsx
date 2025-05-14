@@ -225,7 +225,7 @@ const XYChart = (
         } else if (maxYData > 100) {
             offsetY = 20
         }
-        drawYLabel(d3Selection, yLabel, options.strokeColor, fontSizes.label)
+        drawYLabel(d3Selection, yLabel, options.strokeColor, offsetY, fontSizes.label)
     }
 
     // draw axis

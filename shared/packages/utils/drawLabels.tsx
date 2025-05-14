@@ -55,7 +55,7 @@ export const drawXLabel = (selection: D3Selection, text: string, color: string, 
         .text(text)
 }
 
-export const drawYLabel = (selection: D3Selection, text: string, color: string, offsetY = 6) => {
+export const drawYLabel = (selection: D3Selection, text: string, color: string, offsetY = 6, fontSize: number = 16) => {
     selection
         .append("text")
         .attr("text-anchor", "end")
