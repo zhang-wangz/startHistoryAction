@@ -114,9 +114,9 @@ const XYChart = (
 
     // 使用更小的默认字体大小
     const fontSizes = fontSize || {
-        title: 12,
-        label: 10,
-        axis: 10
+        title: 20,
+        label: 16,
+        axis: 16
     }
 
     if (title) {

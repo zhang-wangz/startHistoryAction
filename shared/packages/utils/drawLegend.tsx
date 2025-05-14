@@ -12,12 +12,12 @@ interface DrawLegendConfig {
 }
 
 const drawLegend = (selection: D3Selection, { items, strokeColor, backgroundColor }: DrawLegendConfig) => {
-    const legendXPadding = 5
-    const legendYPadding = 4
-    const xkcdCharWidth = 3
-    const xkcdCharHeight = 12
-    const colorBlockWidth = 4
-    const logoSize = 10
+    const legendXPadding = 7
+    const legendYPadding = 6
+    const xkcdCharWidth = 7
+    const xkcdCharHeight = 20
+    const colorBlockWidth = 8
+    const logoSize = 17
 
     const legend = selection.append("svg")
     const backgroundLayer = legend.append("svg")
