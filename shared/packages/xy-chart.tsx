@@ -104,7 +104,7 @@ const getDarkThemeDefaultOptions = (transparent: boolean): XYChartOptions => {
 
 const XYChart = (
     svg: SVGSVGElement,
-    { title, xLabel, yLabel, data: { datasets }, showDots, theme, transparent, fontSize }: XYChartConfig,
+    { title, xLabel, yLabel, data: { datasets }, showDots = false, theme, transparent = false, fontSize }: XYChartConfig,
     initialOptions: Partial<XYChartOptions>
 ) => {
     const options: XYChartOptions = {
@@ -114,9 +114,9 @@ const XYChart = (
 
     // 使用更小的默认字体大小
     const fontSizes = fontSize || {
-        title: 14,
-        label: 12,
-        axis: 12
+        title: 12,
+        label: 10,
+        axis: 10
     }
 
     if (title) {
