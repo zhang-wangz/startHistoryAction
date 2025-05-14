@@ -24,11 +24,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>')
         const document = dom.window.document
         
-        // 创建SVG元素，使用更大的尺寸和更宽的宽高比
+        // 创建SVG元素，使用固定的宽高比
         const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
-        svg.setAttribute('width', '864')  // 增加宽度
-        svg.setAttribute('height', '576')   // 增加高度
-        svg.setAttribute('viewBox', '0 0 864 576')  // 设置viewBox以确保正确缩放
+        const width = 864
+        const height = 576
+        svg.setAttribute('width', width.toString())
+        svg.setAttribute('height', height.toString())
+        svg.setAttribute('viewBox', `0 0 ${width} ${height}`)
+        
+        // 计算自适应的字体大小
+        const baseFontSize = Math.min(width, height) * 0.03 // 基础字体大小为容器较小边的3%
+        const titleFontSize = baseFontSize * 1.2 // 标题字体稍大
+        const labelFontSize = baseFontSize * 0.9 // 标签字体稍小
         
         // 生成图表
         XYChart(svg, {
@@ -47,7 +54,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             },
             showDots: false,
             transparent: false,
-            theme: 'light'
+            theme: 'light',
+            fontSize: {
+                title: titleFontSize,
+                label: labelFontSize,
+                axis: baseFontSize
+            }
         }, {
             xTickLabelType: type === 'Date' ? 'Date' : 'Number',
             envType: 'node'
@@ -57,20 +69,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         
         // 根据请求的格式返回不同类型的响应
         if (format === 'png') {
-            // 转换SVG为PNG，使用更大的尺寸
+            // 转换SVG为PNG，保持合适的分辨率
             const pngBuffer = await sharp(Buffer.from(svgString))
-                .resize(2400, 1600)  // 2x分辨率，保持相同的宽高比
+                .resize(width * 2, height * 2) // 2倍分辨率以确保清晰度
                 .png()
                 .toBuffer()
             
-            // 设置PNG响应头
             res.setHeader('Content-Type', 'image/png')
-            res.setHeader('Cache-Control', 'public, max-age=3600') // 1小时缓存
+            res.setHeader('Cache-Control', 'public, max-age=3600')
             res.status(200).send(pngBuffer)
         } else {
-            // 返回SVG
             res.setHeader('Content-Type', 'image/svg+xml')
-            res.setHeader('Cache-Control', 'public, max-age=3600') // 1小时缓存
+            res.setHeader('Cache-Control', 'public, max-age=3600')
             res.status(200).send(svgString)
         }
         

@@ -43,7 +43,6 @@ token.env
 
 .vscode
 .idea
-node_modules
 
 # 其他
 *.log

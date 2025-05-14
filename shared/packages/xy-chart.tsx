@@ -40,14 +40,23 @@ export interface XYChartData {
     datasets: XYData[]
 }
 
+interface FontSize {
+    title: number;
+    label: number;
+    axis: number;
+}
+
 export interface XYChartConfig {
-    title: string
-    xLabel: string
-    yLabel: string
-    data: XYChartData
-    showDots: boolean
-    transparent: boolean
+    title?: string
+    xLabel?: string
+    yLabel?: string
+    data: {
+        datasets: XYData[]
+    }
+    showDots?: boolean
+    transparent?: boolean
     theme?: "light" | "dark"
+    fontSize?: FontSize
 }
 
 type XTickLabelType = "Date" | "Number"
@@ -95,12 +104,19 @@ const getDarkThemeDefaultOptions = (transparent: boolean): XYChartOptions => {
 
 const XYChart = (
     svg: SVGSVGElement,
-    { title, xLabel, yLabel, data: { datasets }, showDots, theme, transparent }: XYChartConfig,
+    { title, xLabel, yLabel, data: { datasets }, showDots, theme, transparent, fontSize }: XYChartConfig,
     initialOptions: Partial<XYChartOptions>
 ) => {
     const options: XYChartOptions = {
         ...(theme === "dark" ? getDarkThemeDefaultOptions(transparent) : getDefaultOptions(transparent)),
         ...initialOptions
+    }
+
+    // 使用传入的字体大小或默认值
+    const fontSizes = fontSize || {
+        title: 20,
+        label: 16,
+        axis: 16
     }
 
     if (title) {
@@ -192,14 +208,10 @@ const XYChart = (
     drawWatermark(svgChart, chartWidth, chartHeight);
 
     if (title) {
-        if (uniq(datasets.map((d) => d.label.split("/")[0])).length === 1) {
-            drawTitle(d3Selection, title, datasets[0].logo, options.strokeColor, options.chartWidth)
-        } else {
-            drawTitle(d3Selection, title, "", options.strokeColor, options.chartWidth)
-        }
+        drawTitle(d3Selection, title, "", options.strokeColor, clientWidth, fontSizes.title)
     }
     if (xLabel) {
-        drawXLabel(d3Selection, xLabel, options.strokeColor)
+        drawXLabel(d3Selection, xLabel, options.strokeColor, fontSizes.label)
     }
     if (yLabel) {
         const maxYData = Math.max(...allYData)
@@ -213,7 +225,7 @@ const XYChart = (
         } else if (maxYData > 100) {
             offsetY = 20
         }
-        drawYLabel(d3Selection, yLabel, options.strokeColor, offsetY)
+        drawYLabel(d3Selection, yLabel, options.strokeColor, fontSizes.label)
     }
 
     // draw axis
@@ -223,13 +235,15 @@ const XYChart = (
         moveDown: chartHeight,
         fontFamily: fontFamily,
         stroke: options.strokeColor,
-        type: options.xTickLabelType
+        type: options.xTickLabelType,
+        fontSize: fontSizes.axis
     })
     drawYAxis(svgChart, {
         yScale,
         tickCount: options.yTickCount,
         fontFamily: fontFamily,
-        stroke: options.strokeColor
+        stroke: options.strokeColor,
+        fontSize: fontSizes.axis
     })
 
     // draw lines

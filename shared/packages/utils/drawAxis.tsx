@@ -10,9 +10,10 @@ interface DrawXAxisConfig {
     fontFamily: string
     stroke: string
     type: "Date" | "Number"
+    fontSize?: number
 }
 
-export const drawXAxis = (selection: D3Selection, { xScale, tickCount, moveDown, fontFamily, stroke, type }: DrawXAxisConfig) => {
+export const drawXAxis = (selection: D3Selection, { xScale, tickCount, moveDown, fontFamily, stroke, type, fontSize = 16 }: DrawXAxisConfig) => {
     const xAxisGenerator = axisBottom(xScale).tickSize(0).tickPadding(6).ticks(tickCount)
 
     if (type === "Number") {
@@ -37,7 +38,7 @@ export const drawXAxis = (selection: D3Selection, { xScale, tickCount, moveDown,
 
     selection.selectAll(".domain").attr("filter", "url(#xkcdify)").style("stroke", stroke)
 
-    selection.selectAll(".xaxis > .tick > text").style("font-family", fontFamily).style("font-size", "16px").style("fill", stroke)
+    selection.selectAll(".xaxis > .tick > text").style("font-family", fontFamily).style("font-size", `${fontSize}px`).style("fill", stroke)
 }
 
 interface DrawYAxisConfig {
@@ -45,9 +46,10 @@ interface DrawYAxisConfig {
     tickCount: number
     fontFamily: string
     stroke: string
+    fontSize?: number
 }
 
-export const drawYAxis = (selection: D3Selection, { yScale, tickCount, fontFamily, stroke }: DrawYAxisConfig) => {
+export const drawYAxis = (selection: D3Selection, { yScale, tickCount, fontFamily, stroke, fontSize = 16 }: DrawYAxisConfig) => {
     let type: NumberUnitType | undefined = undefined
     const yAxisGenerator = axisLeft(yScale)
         .tickSize(1)
@@ -68,5 +70,5 @@ export const drawYAxis = (selection: D3Selection, { yScale, tickCount, fontFamil
 
     selection.selectAll(".domain").attr("filter", "url(#xkcdify)").style("stroke", stroke)
 
-    selection.selectAll(".yaxis > .tick > text").style("font-family", fontFamily).style("font-size", "16px").style("fill", stroke)
+    selection.selectAll(".yaxis > .tick > text").style("font-family", fontFamily).style("font-size", `${fontSize}px`).style("fill", stroke)
 }
