@@ -112,11 +112,11 @@ const XYChart = (
         ...initialOptions
     }
 
-    // 使用传入的字体大小或默认值
+    // 使用更小的默认字体大小
     const fontSizes = fontSize || {
-        title: 20,
-        label: 16,
-        axis: 16
+        title: 14,
+        label: 12,
+        axis: 12
     }
 
     if (title) {

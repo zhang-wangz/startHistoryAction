@@ -14,10 +14,10 @@ interface DrawLegendConfig {
 const drawLegend = (selection: D3Selection, { items, strokeColor, backgroundColor }: DrawLegendConfig) => {
     const legendXPadding = 7
     const legendYPadding = 6
-    const xkcdCharWidth = 7
-    const xkcdCharHeight = 20
-    const colorBlockWidth = 8
-    const logoSize = 14
+    const xkcdCharWidth = 5
+    const xkcdCharHeight = 16
+    const colorBlockWidth = 6
+    const logoSize = 12
 
     const legend = selection.append("svg")
     const backgroundLayer = legend.append("svg")
@@ -59,10 +59,10 @@ const drawLegend = (selection: D3Selection, { items, strokeColor, backgroundColo
         // draw text
         textLayer
             .append("text")
-            .style("font-size", "15px")
+            .style("font-size", "12px")
             .style("fill", strokeColor)
             .attr("x", 8 + legendXPadding + colorBlockWidth + (shouldDrawLogo ? legendXPadding + logoSize : 0) + 6)
-            .attr("y", 17 + xkcdCharHeight * i + 8)
+            .attr("y", 17 + xkcdCharHeight * i + 6)
             .text(item.text)
 
         maxTextLength = Math.max(item.text.length, maxTextLength)
