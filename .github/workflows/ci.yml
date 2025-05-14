@@ -40,6 +40,8 @@ jobs:
 
       - name: Run Python script to generate image
         run: python test.py
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
       - name: Upload generated image to repo
         run: |

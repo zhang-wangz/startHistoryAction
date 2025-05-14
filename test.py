@@ -110,7 +110,7 @@ def main():
     repo = "zhang-wangz/LeetCodeRating"
 
     # 可选：GitHub Token（如果有的话）
-    github_token = os.getenv("GITHUB_TOKEN", "")
+    github_token = os.getenv("ACCESS_TOKEN", "")
 
     # 1. 获取star历史数据
     data = client.get_star_history(repo, github_token)
@@ -121,7 +121,7 @@ def main():
     # 3. 获取并保存PNG图表
     client.get_chart(repo, "star_history.png", github_token, format="png")
 
-    with open("./stormlevel/exist.txt", 'w', encoding = "utf-8") as file:
+    with open("./exist.txt", 'w', encoding = "utf-8") as file:
             time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             file.write(time)
 if __name__ == "__main__":
