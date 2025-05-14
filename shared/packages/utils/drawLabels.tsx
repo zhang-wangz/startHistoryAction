@@ -55,14 +55,26 @@ export const drawXLabel = (selection: D3Selection, text: string, color: string, 
         .text(text)
 }
 
-export const drawYLabel = (selection: D3Selection, text: string, color: string, fontSize: number = 16) => {
+export const drawYLabel = (selection: D3Selection, text: string, color: string, offsetY = 6) => {
     selection
         .append("text")
+        .attr("text-anchor", "end")
+        .attr("dy", ".75em")
+        .attr("transform", "rotate(-90)")
         .style("font-size", `${fontSize}px`)
         .style("fill", color)
-        .attr("transform", "rotate(-90)")
-        .attr("x", "-50%")
-        .attr("y", 25)
-        .attr("text-anchor", "middle")
         .text(text)
+        .attr("y", offsetY)
+        .call((f) => {
+            const defaultTextLength = 100
+            let textLength = defaultTextLength
+            // Because there is no `getComputedTextLength` method in nodejs env,
+            // we have to use it after validate function existed.
+            if (f.node()?.getComputedTextLength) {
+                textLength = f.node()?.getComputedTextLength() as number
+            }
+
+            const offsetX = Math.floor(textLength / 2 - ((selection.attr("height") as unknown as number) || 10) / 2)
+            f.attr("x", offsetX)
+        })
 }
