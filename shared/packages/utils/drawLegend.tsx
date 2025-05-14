@@ -58,13 +58,15 @@ const drawLegend = (selection: D3Selection, { items, strokeColor, backgroundColo
         }
         // draw text
         textLayer
-            .append("text")
-            .text(item.text)
-            .style("fill", strokeColor)
-            .style("font-size", `${xkcdCharHeight}px`)
-            .style("fill", strokeColor)
-            .attr("x", 8 + legendXPadding + colorBlockWidth + (shouldDrawLogo ? legendXPadding + logoSize : 0) + 6)
-            .attr("y", 17 + xkcdCharHeight * i + 6)
+          .append("text")
+          .text(item.text)
+          .style("fill", strokeColor)
+          .style("font-size", `${xkcdCharHeight}px`)
+          .style("fill", strokeColor)
+          .attr("x", 8 + legendXPadding + colorBlockWidth + (shouldDrawLogo ? legendXPadding + logoSize : 0) + 6)
+          .attr("y", 17 + xkcdCharHeight * i + xkcdCharHeight / 2)  // 这个位置是文字的中心位置
+          .attr("alignment-baseline", "middle");  // 确保文本的垂直中线与y对齐
+
 
         maxTextLength = Math.max(item.text.length, maxTextLength)
     })
