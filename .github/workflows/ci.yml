@@ -1,0 +1,50 @@
+name: Generate Star History
+
+on:
+  schedule:
+    - cron: '0 1 * * *'   # 每天上午 9:00（UTC 时间）
+
+  workflow_dispatch:       # 也支持手动触发
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Set up Node.js 15
+        uses: actions/setup-node@v4
+        with:
+          node-version: '15'
+
+      - name: Set up pnpm
+        run: npm install -g pnpm
+
+      - name: Install Node.js dependencies and run dev
+        run: |
+          pnpm install
+          pnpm dev &     # 如果 dev 是长时间运行服务，这一行可能要删掉
+          sleep 5       # 等待服务就绪，或根据需要调整
+
+      - name: Upgrade pip and install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Run Python script to generate image
+        run: python test.py
+
+      - name: Upload generated image to repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Auto-update star_history.png [$(date +'%Y-%m-%d')]"
+          git push

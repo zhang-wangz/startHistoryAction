@@ -121,5 +121,8 @@ def main():
     # 3. 获取并保存PNG图表
     client.get_chart(repo, "star_history.png", github_token, format="png")
 
+    with open("./stormlevel/exist.txt", 'w', encoding = "utf-8") as file:
+            time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            file.write(time)
 if __name__ == "__main__":
     main()
