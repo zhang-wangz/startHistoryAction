@@ -14,7 +14,7 @@ interface DrawLegendConfig {
 const drawLegend = (selection: D3Selection, { items, strokeColor, backgroundColor }: DrawLegendConfig) => {
     const legendXPadding = 7
     const legendYPadding = 6
-    const xkcdCharWidth = 2
+    const xkcdCharWidth = 7
     const xkcdCharHeight = 12
     const colorBlockWidth = 8
     const logoSize = 17
