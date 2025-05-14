@@ -15,7 +15,7 @@ const drawLegend = (selection: D3Selection, { items, strokeColor, backgroundColo
     const legendXPadding = 7
     const legendYPadding = 6
     const xkcdCharWidth = 7
-    const xkcdCharHeight = 12
+    const xkcdCharHeight = 15
     const colorBlockWidth = 8
     const logoSize = 17
 
