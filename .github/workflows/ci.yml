@@ -57,8 +57,8 @@ jobs:
 
       - run: git remote -v
 
-      - name: Git Push updated image
-        run: |
-          git push origin HEAD:main
-        env:
-          ADMIN_TOKEN: ${{ secrets.ADMINTOKEN }}
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{secrets.ADMINTOKEN}}
+          branch: main
