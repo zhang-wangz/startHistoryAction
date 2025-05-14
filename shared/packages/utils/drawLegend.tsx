@@ -14,7 +14,7 @@ interface DrawLegendConfig {
 const drawLegend = (selection: D3Selection, { items, strokeColor, backgroundColor }: DrawLegendConfig) => {
     const legendXPadding = 7
     const legendYPadding = 6
-    const xkcdCharWidth = 7
+    const xkcdCharWidth = 3
     const xkcdCharHeight = 12
     const colorBlockWidth = 8
     const logoSize = 17
@@ -61,7 +61,7 @@ const drawLegend = (selection: D3Selection, { items, strokeColor, backgroundColo
         textLayer
             .append("text")
             .text(item.text)
-            .style("font-size", `${newFontSize}px`)
+            .style("font-size", `${xkcdCharHeight}px`)
             .style("fill", strokeColor)
             .attr("x", 20 + legendXPadding + colorBlockWidth)
             .attr("y", 17 + xkcdCharHeight * i + xkcdCharHeight / 2)
