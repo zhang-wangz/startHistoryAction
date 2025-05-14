@@ -60,11 +60,11 @@ const drawLegend = (selection: D3Selection, { items, strokeColor, backgroundColo
         textLayer
             .append("text")
             .text(item.text)
+            .style("fill", strokeColor)
             .style("font-size", `${xkcdCharHeight}px`)
             .style("fill", strokeColor)
-            .attr("x", 20 + legendXPadding + colorBlockWidth)
-            .attr("y", 17 + xkcdCharHeight * i + xkcdCharHeight / 2)
-            .attr("alignment-baseline", "middle")
+            .attr("x", 8 + legendXPadding + colorBlockWidth + (shouldDrawLogo ? legendXPadding + logoSize : 0) + 6)
+            .attr("y", 17 + xkcdCharHeight * i + 6)
 
         maxTextLength = Math.max(item.text.length, maxTextLength)
     })
