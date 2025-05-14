@@ -34,8 +34,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         
         // 计算自适应的字体大小
         const baseFontSize = Math.min(width, height) * 0.03 // 基础字体大小为容器较小边的3%
-        const titleFontSize = baseFontSize * 1.2 // 标题字体稍大
-        const labelFontSize = baseFontSize * 0.9 // 标签字体稍小
+        const titleFontSize = baseFontSize * 0.5// 标题字体稍大
+        const labelFontSize = baseFontSize * 0.3 // 标签字体稍小
         
         // 生成图表
         XYChart(svg, {
