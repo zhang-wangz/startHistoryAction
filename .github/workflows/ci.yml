@@ -38,6 +38,7 @@ jobs:
 
       - name: Install Node.js dependencies and run dev
         run: |
+          pnpm config set ignore-scripts false
           pnpm install
           pnpm dev &     # 如果 dev 是长时间运行服务，这一行可能要删掉
           sleep 5       # 等待服务就绪，或根据需要调整
