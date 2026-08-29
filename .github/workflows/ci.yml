@@ -1,8 +1,8 @@
 name: Generate Star History
 
 on:
-  schedule:
-    - cron: '0 1 * * *'   # 每天上午 9:00（UTC 时间）
+  # schedule:
+    # - cron: '0 1 * * *'   # 每天上午 9:00（UTC 时间）
 
   workflow_dispatch:       # 也支持手动触发
 
